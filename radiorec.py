@@ -108,7 +108,7 @@ def record_worker(stoprec, streamurl, target_dir, args):
             verboseprint('Apply public write permissions (Linux only)')
             os.chmod(filename, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
         while(not stoprec.is_set() and not conn.closed):
-            target.write(conn.read(1024))
+            target.write(conn.read(64))
 
     verboseprint(print_time() + " ... Connection closed = " + str(conn.closed))
     conn.release_conn()
@@ -159,30 +159,31 @@ def record(args):
             logging.getLogger(__name__).error('Target directory not found! Check that ' +
                                               target_dir + ' is a valid folder!')
             sys.exit(1)
-    started_at = time.time()
-    should_end_at = started_at + (args.duration * 60)
-    remaining = (args.duration * 60)
+    while 1:
+        started_at = time.time()
+        should_end_at = started_at + (args.duration * 60)
+        remaining = (args.duration * 60)
 
-    # as long as recording is supposed to run
-    while time.time() < should_end_at:
-        stoprec = threading.Event()
-        recthread = threading.Thread(target=record_worker, args=(stoprec, streamurl, target_dir, args))
-        recthread.setDaemon(True)
-        recthread.start()
-        verboseprint(print_time() + " ... Started thread " + str(recthread) + " timeout: " +
-                     str(remaining / 60) + " min")
-        recthread.join(remaining)
-        verboseprint(print_time() + " ... Came out of rec thread again")
+        # as long as recording is supposed to run
+        while time.time() < should_end_at:
+            stoprec = threading.Event()
+            recthread = threading.Thread(target=record_worker, args=(stoprec, streamurl, target_dir, args))
+            recthread.setDaemon(True)
+            recthread.start()
+            verboseprint(print_time() + " ... Started thread " + str(recthread) + " timeout: " +
+                        str(remaining / 60) + " min")
+            recthread.join(remaining)
+            verboseprint(print_time() + " ... Came out of rec thread again")
 
-        if recthread.is_alive:
-            stoprec.set()
-            verboseprint(print_time() + " ... Called stoprec.set()")
-        else:
-            verboseprint(print_time() + " ... recthread.is_alive = False")
+            if recthread.is_alive:
+                stoprec.set()
+                verboseprint(print_time() + " ... Called stoprec.set()")
+            else:
+                verboseprint(print_time() + " ... recthread.is_alive = False")
 
-        remaining = should_end_at - time.time()
-        verboseprint(print_time() + " ... Remaining: " + str(remaining / 60) +
-                     ", Threads: " + str(threading.activeCount()))
+            remaining = should_end_at - time.time()
+            verboseprint(print_time() + " ... Remaining: " + str(remaining / 60) +
+                        ", Threads: " + str(threading.activeCount()))
 
 
 def list(args):
