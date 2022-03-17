@@ -18,4 +18,3 @@ COPY . .
 VOLUME ["/app-data"]
 
 CMD ["./radiorec.py", "record","dlf", "5","-s","."]
-# CMD [ "./radiorec.py", "list","-s","."]
