@@ -2,8 +2,8 @@ FROM python:3.6
 
 # Creating Application Source Code Directory
 RUN mkdir -p /Recordings
-
-# WORKDIR 
+RUN mkdir -p /app
+WORKDIR /app
 
 COPY requirements.txt .
 COPY settings.ini .
