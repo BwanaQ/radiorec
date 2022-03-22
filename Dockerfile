@@ -1,12 +1,12 @@
 FROM python:3.6
 
 # Creating Application Source Code Directory
-RUN mkdir -p /radio_record/src
+RUN mkdir -p /Recordings
 
-WORKDIR /radio_record/src
+# WORKDIR 
 
-COPY requirements.txt /radio_record/src
-COPY settings.ini /radio_record/src
+COPY requirements.txt .
+COPY settings.ini .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
@@ -15,6 +15,7 @@ COPY . .
 
 # RUN mkdir -p /radio_record/src/recordings
 
-VOLUME ["/app-data"]
+# VOLUME ["/app-data"]
 
 CMD ["./radiorec.py", "record","dlf", "5","-s","."]
+# docker run -d  -v $(pwd)/Recordings/:/root/Recordings/ radiorec
