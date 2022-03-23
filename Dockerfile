@@ -1,5 +1,5 @@
 FROM python:3.6
-
+ENV STATION dlf
 # Creating Application Source Code Directory
 RUN mkdir -p /Recordings
 RUN mkdir -p /app
@@ -17,5 +17,8 @@ COPY . .
 
 # VOLUME ["/app-data"]
 
-CMD ["./radiorec.py", "record","dlf", "5","-s","."]
-# docker run -d  -v $(pwd)/Recordings/:/root/Recordings/ radiorec
+CMD ./radiorec.py record ${STATION} 5 -s .
+
+# RUN with env variable to override
+
+# docker run -d -e STATION=dkultur -v $(pwd)/Recordings/:/root/Recordings/ radiorec
