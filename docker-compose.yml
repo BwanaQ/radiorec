@@ -1,0 +1,22 @@
+version: '3'
+services:
+  dlf_station:
+    container_name: dlf_station
+    restart: always
+    build: .
+    environment:
+      STATION: dlf
+    volumes:
+      - $PWD/Recordings:/root/Recordings/
+  dkultur_station:
+    container_name: dkultur_station
+    restart: always
+    build: .
+    environment:
+      STATION: dkultur
+    volumes:
+      - $PWD/Recordings:/root/Recordings/
+
+
+# use docker compose up  :To start docker-composer
+# docker compose down :To stop docker-compose
