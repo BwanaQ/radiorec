@@ -18,4 +18,4 @@ WORKDIR /inaSpeechSegmenter
 COPY . ./
 
 RUN pip install --upgrade pip && pip install . && pip cache purge
-# ina_speech_segmenter.py -i "/home/tom/Recordings/*.mp3" -o "/home/tom/Recordings/seg/" -g "false" -d "smn"
+# ina_speech_segmenter.py -i "/root/Recordings/*.mp3" -o "/root/Recordings/seg/" -g "false" -d "smn"

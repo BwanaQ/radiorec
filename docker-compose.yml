@@ -16,6 +16,13 @@ services:
       STATION: dkultur
     volumes:
       - $PWD/Recordings:/root/Recordings/
+  segmenter:
+    container_name: dkultur_station
+    restart: always
+    
+    build: ./inaSpeechSegmenter
+    volumes:
+      - $PWD/Recordings:/root/Recordings/
 
 
 # use docker compose up  :To start docker-composer
