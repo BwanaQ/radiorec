@@ -7,7 +7,7 @@ services:
     environment:
       STATION: dlf
     volumes:
-      - $PWD:/root/Recordings/
+      - $PWD/Recordings:/root/Recordings/
   dkultur_station:
     container_name: dkultur_station
     restart: always
@@ -15,13 +15,13 @@ services:
     environment:
       STATION: dkultur
     volumes:
-      - $PWD:/root/Recordings/
+      - $PWD/Recordings:/root/Recordings/
   segmenter:
     container_name: inasegmenter
     restart: always
     build: ./inaSpeechSegmenter
     volumes:
-      - $PWD:/root/Recordings/
+      - $PWD/Recordings:/root/Recordings/
 
 
 # use docker-compose up  :To start docker-composer
